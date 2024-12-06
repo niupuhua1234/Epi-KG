@@ -21,7 +21,7 @@ time=37
 np.random.seed(0)
 #torch.manual_seed(0)
 import pandas as pd
-y_true=pd.read_csv("covid_data.csv")['United Kingdom'].to_numpy()[92:457]
+y_true=pd.read_csv("covid_data.csv")['United Kingdom'].to_numpy()
 y_true=runningMean(y_true[:,None],20).T
 I_init=y_true.squeeze()[0]
 y_true=torch.tensor(y_true)[...,torch.arange(0,365,10)]
