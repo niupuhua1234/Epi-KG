@@ -22,17 +22,19 @@ populaion=100
 
 def function_network_T(X) -> Tensor:
     state = {"I": 0.01, "S": 0.99, "R": 0., "Q": 0.}
-    output = L_simulate(state,np.array(X),time,q_func_scalar)
+    output = L_simulate(state,np.array(X),time,q_func_scalar)#q_func_weight
     return   torch.tensor(output.reshape(X.shape[0],4*time))
 
 def function_network(X):
     state = {"I": 0.01, "S": 0.99, "R": 0., "Q": 0.}
-    output =L_simulate(state,np.array(X),time,q_func_scalar)
+    output =L_simulate(state,np.array(X),time,q_func_scalar)#q_func_weight
     return  torch.tensor(output.reshape(X.shape[0],4*time))
 
 np.random.seed(0)
 # setting 1: true underlying parameters
 x0 = np.array([0.2,0.9,0.1,0.2]) #alpha,beta,gammaI,gammaQ
+#setting 2
+#x0 = np.array([0.3, 0.06, 0.12, 0.90, 0.1, 0.2])#  0.005*6 0.01*6 0.02*6
 
 # observed values
 mask= torch.ones(1,120)

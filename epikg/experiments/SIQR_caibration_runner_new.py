@@ -15,7 +15,7 @@ sys.path.append(script_dir[:-12])
 # Function network
 from bofn.experiment_manager import experiment_manager
 from bofn.utils.dag import DAG
-from SIQR_epidemic_model_simulator import simulate,q_func_neural,q_func_weight,q_func_scalar,L_simulate,runningMean
+from SIQR_epidemic_model_simulator import simulate,q_func_weight,q_func_scalar,L_simulate,runningMean
 problem = 'SIQR_model_calibration'
 time=37
 np.random.seed(0)
@@ -37,7 +37,7 @@ def function_network(X):
     I   =np.exp(X[...,-2]*log_range_I + log_lower_I)
     ppl =np.exp(X[...,-1]*log_range_ppl + log_lower_ppl)
     state={'I':I/ppl,'S':(ppl-I)/ppl,'R':0.,'Q':0.}
-    output =L_simulate(state,np.array(X[...,:-2]),365,q_func_scalar,step_size=0.1)[:,torch.arange(0,365,10),:]
+    output =L_simulate(state,np.array(X[...,:-2]),365,q_func_scalar,step_size=0.1)[:,torch.arange(0,365,10),:]#q_func_weight
     #return  torch.tensor(output)[...,0]
     return torch.tensor(output[...,:2].reshape(X.shape[0], 2 * time))
 
@@ -63,16 +63,11 @@ for t in range(time-1):
     parent_nodes.append([2*t, 2*t+1])           # i->i' s->i'
     parent_nodes.append([2*t+1])             # s->s'
 
-# for t in range(time-1):
-#     parent_nodes.append([4*t+1])           # s->i'
-#     parent_nodes.append([])             # s->s'
-#     parent_nodes.append([4*t, 4*t+3])  # i->r' r->r', q->r',
-#     parent_nodes.append([4*t,   ])            # i->q'   q->q'
 dag = DAG(parent_nodes=parent_nodes)
 # Active input indices I(X) for each nodes h
 active_input_indices = []
 for k in range(time):
-    active_input_indices.append(list(range(6)))
+    active_input_indices.append(list(range(6)))#list(range(8))) for q_func_weight
     active_input_indices.append(list(range(6)))
     active_input_indices.append(list(range(6)))
     active_input_indices.append(list(range(6)))
@@ -88,6 +83,6 @@ args={'n_init_evals':(2*5 +1),
       'obj_transform':obj_transform,
       'obj_transform_true': obj_transform_true,
       'bounds': torch.tensor([[0.]*6,  [1.]*6]),
-      }# 3* for UK
-experiment_manager(problem=problem,algo='EIFN',first_trial=5, last_trial=5,**args)
+      }
+experiment_manager(problem=problem,algo='KGCF',first_trial=1, last_trial=5,**args)
 
