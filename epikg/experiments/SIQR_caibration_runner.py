@@ -15,7 +15,7 @@ sys.path.append(script_dir[:-12])
 # Function network
 from bofn.experiment_manager import experiment_manager
 from bofn.utils.dag import DAG
-from SIQR_epidemic_model_simulator import simulate,q_func_neural,q_func_weight,q_func_scalar,L_simulate,runningMean
+from SIQR_epidemic_model_simulator import simulate,q_func_weight,q_func_scalar,L_simulate,runningMean
 problem = 'SIQR_model_calibration'
 time=30
 populaion=100
@@ -32,12 +32,7 @@ def function_network(X):
 
 np.random.seed(0)
 # setting 1: true underlying parameters
-x0 = np.array([0.2,0.9,0.1,0.2])#np.asarray([0.2,0.9,0.065,0.2]) #alpha,beta,gammaI,gammaQ
-#setting 2
-#x0 = np.array([0.3, 0.06, 0.12, 0.90, 0.1, 0.2])#  0.005*6 0.01*6 0.02*6
-#setting 3
-#rng = np.random.default_rng(12345)
-#x0 = np.concatenate((rng.normal(size=51), np.array([0.90, 0.1, 0.2])))  # 0.005*6 0.01*6 0.02*6
+x0 = np.array([0.2,0.9,0.1,0.2]) #alpha,beta,gammaI,gammaQ
 
 # observed values
 mask= torch.ones(1,120)
@@ -59,11 +54,7 @@ for t in range(time-1):
     parent_nodes.append([4*t+1])                   # s->s'
     parent_nodes.append([4*t+2,  4*t, 4*t+3])      # i->r' r->r', q->r',
     parent_nodes.append([4*t+3,  4*t,   ])         # i->q'   q->q'
-# for t in range(time-1):
-#     parent_nodes.append([4*t+1])                 # s->i'
-#     parent_nodes.append([])                      # s->s'
-#     parent_nodes.append([4*t, 4*t+3])            # i->r' r->r', q->r',
-#     parent_nodes.append([4*t,   ])               # i->q'   q->q'
+
 dag = DAG(parent_nodes=parent_nodes)
 
 # Active input indices I(X) for each nodes h
@@ -86,5 +77,5 @@ args={'n_init_evals':(2*len(x0) +1),
       'obj_transform_true': obj_transform_true,
       'bounds':torch.tensor([len(x0)*[0.],len(x0)*[1.]]),
       }
-experiment_manager(problem=problem,algo='EIFN',first_trial=1, last_trial=5,**args)
+experiment_manager(problem=problem,algo='KGCF',first_trial=1, last_trial=5,**args)
 
