@@ -8,6 +8,15 @@
 </div> -->
 --------------------------------------------------------------------------------
 # Epi-KG
-code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimization]()'
+code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimization](https://openreview.net/forum?id=gFDeL2s5I3#discussion)'
 
 ## Citation
+
+@inproceedings{
+niu2024epidemiological,
+title={Epidemiological Model Calibration with Bayesian Decision-Making},
+author={Puhua Niu and Byung-Jun Yoon and Xiaoning Qian},
+booktitle={IEEE-EMBS International Conference on Biomedical and Health Informatics},
+year={2024},
+url={https://openreview.net/forum?id=gFDeL2s5I3}
+}
