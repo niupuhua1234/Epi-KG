@@ -12,6 +12,8 @@ code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimiza
 
 ## Citation
 
+
+```bibtex
 @inproceedings{
 niu2024epidemiological,
 title={Epidemiological Model Calibration with Bayesian Decision-Making},
