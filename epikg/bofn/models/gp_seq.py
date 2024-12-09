@@ -141,7 +141,7 @@ class MultivariateNormalSeq(Posterior):
     def base_sample_shape(self) -> torch.Size:
         r"""The shape of a base sample used for constructing posterior samples.
                          :(sample_size,num_restart, num_candidate, output_dim+inputdim),
-         real base sample: (sample_size, 1,num_candidate, output_dim+inputdim)
+         real_us base sample: (sample_size, 1,num_candidate, output_dim+inputdim)
         This function may be overwritten by subclasses in case `base_sample_shape`
         and `event_shape` do not agree (e.g. if the posterior is a Multivariate
         Gaussian that is not full rank).

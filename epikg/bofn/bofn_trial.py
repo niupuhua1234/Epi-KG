@@ -9,7 +9,6 @@ from typing import List
 from bofn.acquisition_function_optimization.optimize_acqf import optimize_acqf_and_get_suggested_point,optimize_decoupled_KG_and_get_suggested_point
 from bofn.utils.dag import DAG
 from bofn.utils.fit_gp_model import fit_gp_model
-from bofn.models.gp_network import GaussianProcessNetwork
 from bofn.models.gp_seq import GaussianProcessSeq
 from bofn.utils.posterior_mean import PosteriorMean
 
