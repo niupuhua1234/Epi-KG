@@ -42,7 +42,7 @@ def function_network(X):
     return torch.tensor(output[...,:2].reshape(X.shape[0], 2 * time))
 
 def obj_transform(Y,X):
-    scale = 1e-3  # -3 for uk
+    scale = 1e-3  # -3 for uk -4 for us
     ppl=torch.exp(X[...,[-1]]*log_range_ppl + log_lower_ppl)
     loss=-(((Y[..., mask]*ppl - y_true_noise) * scale) ** 2).mean(dim=-1)
     return loss

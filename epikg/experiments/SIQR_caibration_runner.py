@@ -79,5 +79,5 @@ args={'n_init_evals':(2*len(x0) +1),
       'obj_transform_true': obj_transform_true,
       'bounds':torch.tensor([len(x0)*[0.],len(x0)*[1.]]),
       }
-experiment_manager(problem=problem,algo='KGCF',first_trial=1, last_trial=5,**args)
+experiment_manager(problem=problem,algo='EICF',first_trial=1, last_trial=5,**args)
 
