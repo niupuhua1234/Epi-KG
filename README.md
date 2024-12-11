@@ -8,7 +8,7 @@
 </div> -->
 --------------------------------------------------------------------------------
 # Epi-KG
-code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimization](https://openreview.net/forum?id=gFDeL2s5I3#discussion)'
+code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimization](https://arxiv.org/abs/2412.07193)'
 
 ## Citation
 
