@@ -12,6 +12,7 @@ code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimiza
 
 ## Citation
 
+```bibtex
 @misc{niu2024epidemiologicalmodelcalibrationgraybox,
       title={Epidemiological Model Calibration via Graybox Bayesian Optimization}, 
       author={Puhua Niu and Byung-Jun Yoon and Xiaoning Qian},
@@ -22,8 +23,6 @@ code for paper '[Epidemiological Model Calibration via Graybox Bayesian Optimiza
       url={https://arxiv.org/abs/2412.07193}, 
 }
 
-
-```bibtex
 @inproceedings{
 niu2024epidemiological,
 title={Epidemiological Model Calibration with Bayesian Decision-Making},
