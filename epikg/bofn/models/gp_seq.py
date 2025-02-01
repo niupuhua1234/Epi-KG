@@ -32,7 +32,7 @@ class GaussianProcessSeq(Model):
             self.node_GPs:List[ SingleTaskGP|None]  = [None for _ in range(self.n_nodes)]
             self.node_mlls:List[ExactMarginalLogLikelihood|None] = [None for _ in range(self.n_nodes)]
             for k in range(self.n_nodes):
-                self.node_GPs[k] =FixedNoiseGP(self.train_X[...,k], self.train_Y[...,k], self.train_Yvar[...,k],
+                self.node_GPs[k] =FixedNoiseGP(self.train_X, self.train_Y[...,k], self.train_Yvar[...,k],
                                                outcome_transform=Standardize(m=train_Y[...,k].shape[-1]))
                 # fit the GP for each node
                 self.node_mlls[k] = ExactMarginalLogLikelihood(self.node_GPs[k].likelihood, self.node_GPs[k])
