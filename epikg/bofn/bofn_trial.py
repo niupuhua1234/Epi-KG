@@ -77,7 +77,6 @@ def get_new_suggested_point(
     elif algo=='DGCF':
         n_nodes=len(dag.root_nodes)
         T=dag.n_nodes//n_nodes
-        X=X.unsqueeze(-1).repeat(1,1,n_nodes)
         Y=Y.reshape(-1,T, n_nodes)
         model = GaussianProcessSeq(n_node= n_nodes,T=T,train_X=X,train_Y=Y)
         #qmc_sampler = SobolQMCNormalSampler(num_samples=128) # provided base samples for reparametrization trick
