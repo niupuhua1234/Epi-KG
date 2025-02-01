@@ -9,6 +9,7 @@ from typing import List
 from bofn.acquisition_function_optimization.optimize_acqf import optimize_acqf_and_get_suggested_point,optimize_decoupled_KG_and_get_suggested_point
 from bofn.utils.dag import DAG
 from bofn.utils.fit_gp_model import fit_gp_model
+from bofn.models.gp_network import GaussianProcessNetwork
 from bofn.models.gp_seq import GaussianProcessSeq
 from bofn.utils.posterior_mean import PosteriorMean
 
@@ -63,6 +64,27 @@ def get_new_suggested_point(
         model = fit_gp_model(X=X, Y=Y)
         #qmc_sampler = SobolQMCNormalSampler(num_samples=128) # provided base samples for reparametrization trick
         qmc_sampler = SobolQMCNormalSampler(torch.Size([128]))
+        acquisition_function    = qKnowledgeGradient(
+            model=model,
+            inner_sampler=qmc_sampler,
+            objective=obj_transform,
+            num_fantasies=8)
+        posterior_mean_function = PosteriorMean(
+            model=model,
+            sampler=qmc_sampler,
+            objective=obj_transform,
+        )
+
+    elif algo == "KGFN":
+        # Model
+        model = GaussianProcessNetwork(train_X=X,
+                                       train_Y=Y,
+                                       dag=dag,
+                                       active_indices=active_indices)
+        # Sampler
+        #qmc_sampler = SobolQMCNormalSampler(num_samples=128)
+        qmc_sampler = SobolQMCNormalSampler(torch.Size([128]))
+        # Acquisition function
         acquisition_function    = qKnowledgeGradient(
             model=model,
             inner_sampler=qmc_sampler,
