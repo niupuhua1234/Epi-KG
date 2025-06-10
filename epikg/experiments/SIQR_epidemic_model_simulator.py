@@ -93,3 +93,10 @@ def runningMean(x, N):
         else:
             y[ctr,:]= np.sum(x[ctr+1-N:ctr+1,:],0)
     return y/N
+
+def get_batch(true_y,time_length,data_size = 300,batch_time = 30,batch_size = 24):
+  s = torch.from_numpy(np.random.choice(np.arange(data_size - batch_time, dtype=np.int64), batch_size, replace=False))
+  batch_y0 = true_y[s]  # (batch_size, 1, emb)
+  batch_t = torch.linspace(1, batch_time , batch_time)*time_length/data_size
+  batch_y = torch.stack([true_y[s + i] for i in range(batch_time)], dim=0)  # (time, batch_size, 1, emb)
+  return batch_y0, batch_t, batch_y#torch.normal(0.0,(0.1*batch_y))
