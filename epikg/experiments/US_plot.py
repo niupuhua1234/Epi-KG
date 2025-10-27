@@ -6,7 +6,7 @@ import torch.nn as nn
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
-from SIQR_epidemic_model_simulator import runningMean,q_func_scalar,q_func_weight,L_simulate,simulate
+from SIQR_utils import runningMean,q_func_scalar,q_func_weight,L_simulate,simulate
 
 if __name__ == '__main__':
     #np.random.seed(0)
@@ -113,3 +113,4 @@ if __name__ == '__main__':
     plt.fill_between(time, a_mean[:, 0] - a_std[:, 0], a_mean[:, 0] + a_std[:, 0], alpha=0.2)
     plt.fill_between(time, b_mean[:, 0] - b_std[:, 0], b_mean[:, 0] + b_std[:, 0], alpha=0.2)
     plt.pause()
+
