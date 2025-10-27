@@ -15,7 +15,7 @@ sys.path.append(script_dir[:-12])
 # Function network
 from bofn.experiment_manager import experiment_manager
 from bofn.utils.dag import DAG
-from SIQR_epidemic_model_simulator import simulate,q_func_weight,q_func_scalar,L_simulate,runningMean
+from SIQR_utils import simulate,q_func_weight,q_func_scalar,L_simulate,runningMean
 problem = 'SIQR_model_calibration'
 time=37
 np.random.seed(0)
@@ -85,4 +85,5 @@ args={'n_init_evals':(2*5 +1),
       'bounds': torch.tensor([[0.]*6,  [1.]*6]),
       }
 experiment_manager(problem=problem,algo='KGCF',first_trial=1, last_trial=5,**args)
+
 
