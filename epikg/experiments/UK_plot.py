@@ -11,7 +11,6 @@ if __name__ == '__main__':
     y_raw = pd.read_csv("covid_data.csv")['United Kingdom'].to_numpy()[0:365]
     y_true = runningMean(y_raw[:, None], 20).T
     I_init = y_true.squeeze()[0]
-    I_init = y_true.squeeze()[0]
     log_range_I, log_lower_I = -np.log(0.1), np.log(I_init) + np.log(0.1)  # 2 * for -CF
     log_range_ppl, log_lower_ppl = 2 * np.log(10), np.log(I_init) + np.log(10)  # 2* for uk
 
@@ -115,3 +114,4 @@ if __name__ == '__main__':
     plt.fill_between(time, a_mean[:, 0] - a_std[:, 0], a_mean[:, 0] + a_std[:, 0], alpha=0.2)
     plt.fill_between(time, b_mean[:, 0] - b_std[:, 0], b_mean[:, 0] + b_std[:, 0], alpha=0.2)
     plt.pause()
+
