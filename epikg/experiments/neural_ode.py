@@ -8,7 +8,7 @@ import torch.optim as optim
 from   torchdiffeq import  odeint_adjoint,odeint
 from  tqdm import  tqdm
 import time
-from SIQR_epidemic_model_simulator import  get_batch,L_simulate,runningMean
+from SIQR_utils import  get_batch,L_simulate,runningMean
 from ODE_base import NNnet,UDE
 torch.manual_seed(0)
 
@@ -67,4 +67,5 @@ for iter in (pbar:=tqdm(range(niters + 1))):
         np.savetxt('us_pred_y_'+trail+'.txt',pred_y[:,0,0]*ppl)
 
 end_time = time.time() - start_time
+
 print('process time: {} sec'.format(end_time))
