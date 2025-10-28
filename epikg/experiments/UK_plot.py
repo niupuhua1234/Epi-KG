@@ -59,7 +59,6 @@ if __name__ == '__main__':
     plt.xticks([0, 92, 183, 274, 365],
                ["June", "Sep", "Dec", "March", "June"],fontsize=20)
     plt.ylim(-0.2 * 10000, 5 * 10000)
-
     plt.fill_between(time,a_mean[:,0]-a_std[:,0],a_mean[:,0]+a_std[:,0],alpha=0.2)
     plt.fill_between(time, b_mean[:, 0] - b_std[:, 0], b_mean[:, 0] + b_std[:, 0], alpha=0.2)
     plt.show()
@@ -113,6 +112,46 @@ if __name__ == '__main__':
 
     plt.fill_between(time, a_mean[:, 0] - a_std[:, 0], a_mean[:, 0] + a_std[:, 0], alpha=0.2)
     plt.fill_between(time, b_mean[:, 0] - b_std[:, 0], b_mean[:, 0] + b_std[:, 0], alpha=0.2)
-    plt.pause()
+    plt.show()
+
+    #
+    result = './real_uk/SIQR_model_calibration_scalar/'
+    a = []
+    a.append(np.loadtxt(result+'KGCF/pred_y_1.txt'))
+    a.append(np.loadtxt(result+'KGCF/pred_y_2.txt'))
+    a.append(np.loadtxt(result+'KGCF/pred_y_3.txt'))
+    a.append(np.loadtxt(result+'KGCF/pred_y_4.txt'))
+    a.append(np.loadtxt(result+'KGCF/pred_y_5.txt'))
+
+    b = []
+    b.append(np.loadtxt(result+'KGFN/pred_y_1.txt'))
+    b.append(np.loadtxt(result+'KGFN/pred_y_2.txt'))
+    b.append(np.loadtxt(result+'KGFN/pred_y_3.txt'))
+    b.append(np.loadtxt(result+'KGFN/pred_y_4.txt'))
+    b.append(np.loadtxt(result+'KGFN/pred_y_5.txt'))
+
+    a = np.stack(a)
+    a_mean = a.mean(0)
+    a_std = a.std(0)
+
+    b = np.stack(b)
+    b_mean = b.mean(0)
+    b_std = b.std(0)
+
+    plt.figure(figsize=(6.4, 4.8))
+    plt.ticklabel_format(axis='y', style='sci', scilimits=(4, -4))
+    plt.plot(a_mean)
+    plt.plot(b_mean)
+    plt.scatter(np.arange(365), pd.read_csv("covid_data.csv")['United Kingdom'].to_numpy()[0:365].squeeze(),
+                color='gray', marker='o', alpha=0.2)
+
+    plt.legend(['Calibration-KGCF', 'Calibration-KGFN', 'Observation'])
+    plt.ylabel('Population', fontsize=20)
+    plt.xticks([0, 92, 183, 274, 365],
+               ["June", "Sep", "Dec", "March", "June"], fontsize=20)
+    plt.ylim(-0.2 * 10000, 5 * 10000)
+    plt.fill_between(np.arange(365), a_mean - a_std, a_mean + a_std, alpha=0.2)
+    plt.fill_between(np.arange(365), b_mean - b_std, b_mean + b_std, alpha=0.2)
+    plt.show()
 
 
