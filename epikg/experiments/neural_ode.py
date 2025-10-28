@@ -8,7 +8,7 @@ import torch.optim as optim
 from   torchdiffeq import  odeint_adjoint,odeint
 from  tqdm import  tqdm
 import time
-from SIQR_utils import  get_batch,L_simulate,runningMean
+from SIQR_utils import  get_batch,L_simulate,runningMean,visualize
 from ODE_base import NNnet,UDE
 torch.manual_seed(0)
 
@@ -22,7 +22,7 @@ trail='4'
 index= np.argmax(np.loadtxt(path+"best_obj_"+trail+".txt"))
 x    = np.loadtxt(path+"X/X_"+trail+".txt")
 x    = x[index+10]#skip initial x
-#from SIQR_epidemic_model_simulator import simulate
+
 #log_range_I, log_lower_I = -np.log(0.1), np.log(I_init) + np.log(0.1)
 #log_range_ppl, log_lower_ppl =  2*np.log(10), np.log(I_init) + np.log(10)
 #I, ppl = np.exp(x[-2] * log_range_I + log_lower_I), np.exp(x[-1] * log_range_ppl + log_lower_ppl)
@@ -62,6 +62,8 @@ for iter in (pbar:=tqdm(range(niters + 1))):
       pred_y =odeint(UDE, true_y0.unsqueeze(0), torch.linspace(1,time_length,time_size) ,method='euler')# odeint_adjoint(UDE, true_y0.unsqueeze(0), t,method='dopri5')
       loss =torch.mean(torch.abs(pred_y[:,:,0]-true_y.unsqueeze(1)[:,:,0]))
       pbar.set_postfix({'Total Loss': '{:.6f}'.format(loss.item())})
+      #if iter % 500 == 0 and iter != 0:
+      #  visualize( torch.linspace(1,time_length,time_size), true_y.numpy(), pred_y[:,0,:].detach().numpy())
       if loss<loss_best:
         loss_best=loss
         np.savetxt('us_pred_y_'+trail+'.txt',pred_y[:,0,0]*ppl)
@@ -69,3 +71,4 @@ for iter in (pbar:=tqdm(range(niters + 1))):
 end_time = time.time() - start_time
 
 print('process time: {} sec'.format(end_time))
+
