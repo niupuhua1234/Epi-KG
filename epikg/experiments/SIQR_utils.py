@@ -100,3 +100,19 @@ def get_batch(true_y,time_length,data_size = 300,batch_time = 30,batch_size = 24
   batch_t = torch.linspace(1, batch_time , batch_time)*time_length/data_size
   batch_y = torch.stack([true_y[s + i] for i in range(batch_time)], dim=0)  # (time, batch_size, 1, emb)
   return batch_y0, batch_t, batch_y#torch.normal(0.0,(0.1*batch_y))
+
+def visualize(t,true_y, pred_y=None):
+  fig,ax  = plt.subplots(2, 2, figsize=(7, 7))
+  legend=['Infectious','Susceptible','Recoverd','Qurantined']
+
+  for i in range(4):
+    ax[i//2][i%2].plot(t, true_y[:, i])
+    ax[i//2][i%2].plot(t, pred_y[:, i])
+    ax[i // 2][i % 2].legend(['True','Predicted'])
+    ax[i // 2][i % 2].set_title(legend[i])
+    ax[i//2][i%2].set_xlabel('Days',fontsize=5)
+    ax[i // 2][i % 2].set_ylabel('Rate',fontsize=5)
+    ax[i // 2][i % 2].set_ylim(0, 1)
+  plt.show()
+
+
